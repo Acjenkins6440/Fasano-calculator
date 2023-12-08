@@ -24,7 +24,7 @@ header {
 }
 .display {
   border-radius: 10px;
-  height: 70 px;
+  height: 70px;
   width: 300px;
   background-color: aliceblue;
 }
@@ -39,8 +39,8 @@ button {
 }
 .plus {
   height: 145px;
-
 }
+
 table {
   width: 300px;
 }
