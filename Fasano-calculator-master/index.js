@@ -1,4 +1,4 @@
-// Useful functions: 
+// Useful functions:
 // document.querySelector => Accepts a css selector and returns the first element that matches.
 // Ex: document.querySelector('#equals') will select an element with an id 'equals'
 
@@ -21,51 +21,93 @@
 // includes => String method, accepts an argument and returns true if that argument appears in the string
 // Ex: '2 + 2'.includes('+') returns true
 // Ex: '2 + 2'.includes('/') returns false
-
+const operatorArray = ['+','-','*','/']
 document.addEventListener('DOMContentLoaded', function (event) {
-  // set up button event listeners here
-numberButtons.addEventListener('click' , function numberButtonPress(number) {
-
-} );
-operatorButtons.addEventListener('click' , function operatorButtonPress(operator) {
-
-} );
-equalButton.addEventListener('click', function(calculate){
-  
-});
-clearButton.addEventListener('click', function(del){
-
-});
-  // We do this here because we have to wait for the DOM content (all HTML elements) 
-  // to load before we make adjustments to it.
-
-  // Example of how to get all the number buttons.
-  // In order for this to work, you will have to add the 'number' class to each number button
   const numberButtons = document.querySelectorAll('button.number')
   const operatorButtons = document.querySelectorAll('button.operator')
+  const clearButton = document.querySelector('button.clear')
+  const equalButton = document.querySelector('button.equal')
+  // set up button event listeners here
+  numberButtons.forEach((btn) => {
+    btn.addEventListener('click', () => {
+      const number = btn.attributes['data-value'].value
+      if (operatorArray.some((oper) => displayValue == oper)){
+        displayValue = number
+        equation += number
+      }
+      else if (!displayValue.includes('.') ||
+        (displayValue.includes('.') && number != '.')) {
+        displayValue += number
+        equation += number
+      }
+      updateDisplay()
+    })
+  })
+  operatorButtons.forEach((btn) => {
+    btn.addEventListener('click', () =>{
+      const operator = btn.attributes['data-value'].value
+      const equationIncludesOperator = operatorArray.some((oper) => equation.includes(oper))
+      const displayValueIsOperator = operatorArray.some((oper) => displayValue.includes(oper))
+      if (equationIncludesOperator && !displayValueIsOperator) {        
+        calculate()
+      }
+      if (displayValueIsOperator) {
+        displayValue = operator
+        equation = equation.slice(0, equation.length - 1) + operator
+      } else if(displayValue != "") {
+        displayValue = operator
+        equation += operator
+      }
+      updateDisplay()
+    })
+  })
+  clearButton.addEventListener('click', () => {
+    displayValue = ''
+    equation = ''
+    updateDisplay()
+  })
+  equalButton.addEventListener('click', () => {
+    calculate()
+    displayValue = equation
+    updateDisplay()
+  })
+
 })
-
-// total is the number that appears after calculating. 
-// Ex: If we enter 2 + 2 and hit the = button, the total should be 4, and shown in the display
-var total = 0
-
-// equation is the operation we are building. Hitting 2 should set equation to '2', then hitting + 
-// should set the equation to '2+' then 2 again should set it to '2+2'
-var equation = ' '
-
-// This function should trigger when a number is pressed (The decimal should be treated as a number)
-function numberButtonPress(number) {
-  var num = this.innerHTML;
-  display.value=display.value+num;
-
+function updateDisplay() {
+  document.querySelector('.display').innerHTML = displayValue
+  console.log(equation)
 }
-// This function should trigger when an operator is pressed
-function operatorButtonPress(operator) {
-  
-}
-
-// This function should trigger when equal is pressed
 function calculate() {
-  // Use equation to calculate 
-  // Separate the numbers 
+  if(equation.includes('+') ) {
+    nums = equation.split('+')
+    equation = add(nums)
+  } else if (equation.includes('-')) {
+    nums = equation.split('-')
+    equation = subtract(nums)
+  } else if (equation.includes('*')) {
+    nums = equation.split('*')
+    equation = multiply(nums)
+  } else if (equation.includes('/')) {
+    nums = equation.split('/')
+    equation = divide(nums)
+  }
 }
+function add(nums) {
+  const result = parseFloat(nums[0]) + parseFloat (nums[1])
+  return result.toString()
+}
+function subtract(nums) {
+  const result = parseFloat(nums[0]) - parseFloat(nums[1])
+  return result.toString()
+}
+function multiply(nums) {
+  const result = parseFloat(nums[0]) * parseFloat(nums[1])
+  return result.toString()
+}
+function divide(nums) {
+  const result = parseFloat(nums[0]) / parseFloat(nums[1])
+  return result.toString()
+}
+var equation = ''
+
+var displayValue = ''

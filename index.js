@@ -30,7 +30,7 @@ document.addEventListener('DOMContentLoaded', function (event) {
 
   // Example of how to get all the number buttons.
   // In order for this to work, you will have to add the 'number' class to each number button
-  const numberButtons = document.querySelectorAll('button.number')
+  const numberButtons = document.querySelectorAll('button.number') 
 })
 
 // total is the number that appears after calculating. 
@@ -38,7 +38,7 @@ document.addEventListener('DOMContentLoaded', function (event) {
 var total = 0
 
 // equation is the operation we are building. Hitting 2 should set equation to '2', then hitting + 
-// should set the equation to '2+' then 2 again should set it to '2+2'
+// should set the equation to '2+' then 2 again should s                        et it to '2+2'
 var equation = ' '
 
 // This function should trigger when a number is pressed (The decimal should be treated as a number)
