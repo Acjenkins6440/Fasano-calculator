@@ -1,6 +1,6 @@
 .main-wrapper {
   border-radius: 25px;
-  background-color: rgb(110, 24, 190);
+  background-color: #89B0AE;
   height: 550px;
   width: 400px;
   padding: 20px;
@@ -11,7 +11,7 @@
   gap: 50px;
 }
 body {
-  background-color: aquamarine;
+  background-color: #555B6E;
 }
 .background {
   height: 95%;
@@ -26,13 +26,27 @@ header {
   border-radius: 10px;
   height: 70px;
   width: 300px;
-  background-color: aliceblue;
+  background-color: #FAF9F9;
+  border: 3px solid #555B6E;
+  box-sizing: border-box;
+  padding: 10px;
 }
 button {
-  background-color: #ff5722;
+  background-color: #BEE3DB;
   height: 70px;
   width: 70px;
   font-size: 36px;
+  transition-duration: 0.8s;
+  box-shadow: 0 5px #555B6E;
+}
+button:hover {
+  background-color: #BEE3DB;
+  color: white;
+}
+button:active {
+  background-color: #555B6E;
+  box-shadow: 0 2px #666;
+  transform: translateY(3px)
 }
 .equal {
  width: 145px; 

@@ -21,12 +21,14 @@
 // includes => String method, accepts an argument and returns true if that argument appears in the string
 // Ex: '2 + 2'.includes('+') returns true
 // Ex: '2 + 2'.includes('/') returns false
-const operatorArray = ['+','-','*','/']
+const operatorArray = ['+','−','*','/']
+const equationIncludesOperator = () => operatorArray.some((oper) => equation.includes(oper))
 document.addEventListener('DOMContentLoaded', function (event) {
   const numberButtons = document.querySelectorAll('button.number')
   const operatorButtons = document.querySelectorAll('button.operator')
   const clearButton = document.querySelector('button.clear')
   const equalButton = document.querySelector('button.equal')
+  const inverseButton = document.querySelector('button.inverse')
   // set up button event listeners here
   numberButtons.forEach((btn) => {
     btn.addEventListener('click', () => {
@@ -46,20 +48,42 @@ document.addEventListener('DOMContentLoaded', function (event) {
   operatorButtons.forEach((btn) => {
     btn.addEventListener('click', () =>{
       const operator = btn.attributes['data-value'].value
-      const equationIncludesOperator = operatorArray.some((oper) => equation.includes(oper))
       const displayValueIsOperator = operatorArray.some((oper) => displayValue.includes(oper))
-      if (equationIncludesOperator && !displayValueIsOperator) {        
+      if (equationIncludesOperator() && !displayValueIsOperator) {        
         calculate()
       }
       if (displayValueIsOperator) {
         displayValue = operator
-        equation = equation.slice(0, equation.length - 1) + operator
+        equation = equation + operator
       } else if(displayValue != "") {
         displayValue = operator
         equation += operator
       }
       updateDisplay()
     })
+  })
+  inverseButton.addEventListener('click', () => {
+    if (parseInt(displayValue) !== 'NaN') {
+      displayValue = parseInt(displayValue) * (-1)
+      displayValue = displayValue.toString()
+      console.log('displayValue', displayValue)
+      if (equationIncludesOperator()){ 
+        let operator = ''  
+        operatorArray.forEach((oper) => {
+          if (equation.includes(oper)){
+            operator = oper
+          }
+        })
+        arr = equation.split(operator)
+        arr[1] = displayValue
+        equation = arr.join(operator)
+
+      } else {
+        equation = displayValue
+      }
+    updateDisplay() 
+    }
+     
   })
   clearButton.addEventListener('click', () => {
     displayValue = ''
@@ -81,8 +105,8 @@ function calculate() {
   if(equation.includes('+') ) {
     nums = equation.split('+')
     equation = add(nums)
-  } else if (equation.includes('-')) {
-    nums = equation.split('-')
+  } else if (equation.includes('−')) {
+    nums = equation.split('−')
     equation = subtract(nums)
   } else if (equation.includes('*')) {
     nums = equation.split('*')
